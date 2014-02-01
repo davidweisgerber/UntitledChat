@@ -4,7 +4,6 @@ import com.gprojekt.untitledchat.entities.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,27 +23,39 @@ public class UserJPADAOTest {
     @Autowired
     private UserJPADAO userDAO;
 
+    public static User getUser() {
+        return new User("username", "password");
+    }
+
     @Test
     @Transactional
     public void testPersist() throws Exception {
-        User user = new User("username", "password");
-        user = this.userDAO.persist(user);
+        User user = this.userDAO.persist(getUser());
 
         assertTrue(user.getId() > 0);
     }
 
     @Test
+    @Transactional
     public void testRemove() throws Exception {
-
+        User user = this.userDAO.persist(getUser());
+        this.userDAO.remove(user);
+        assertTrue(this.userDAO.getById(user.getId()) == null);
     }
 
     @Test
+    @Transactional
     public void testGetByUsername() throws Exception {
+        User user = this.userDAO.persist(getUser());
 
+        assertTrue(this.userDAO.getByUsername(user.getUsername()) == user);
     }
 
     @Test
+    @Transactional
     public void testGetById() throws Exception {
+        User user = this.userDAO.persist(getUser());
 
+        assertTrue(this.userDAO.getById(user.getId()) == user);
     }
 }
