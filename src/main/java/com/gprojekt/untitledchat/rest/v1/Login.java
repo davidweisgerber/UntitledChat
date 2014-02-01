@@ -3,6 +3,7 @@ package com.gprojekt.untitledchat.rest.v1;
 import com.gprojekt.untitledchat.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -22,6 +23,7 @@ public class Login {
     @Autowired
     LoginService loginService;
 
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     public boolean login(@QueryParam("username") String username, @QueryParam("password")String password) {
         return this.loginService.login(username, password);
