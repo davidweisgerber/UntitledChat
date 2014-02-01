@@ -1,5 +1,10 @@
 package com.gprojekt.untitledchat.services;
 
+import com.gprojekt.untitledchat.dto.CreateUserMessage;
+import com.gprojekt.untitledchat.entities.User;
+
+import javax.websocket.Session;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Weisgerber
@@ -9,4 +14,10 @@ package com.gprojekt.untitledchat.services;
  */
 public interface LoginService {
     boolean login(String username, String password);
+
+    void createUser(CreateUserMessage message, Session session);
+
+    void needChallenge(String username, Session session);
+
+    void login(String signedGUID, User user);
 }

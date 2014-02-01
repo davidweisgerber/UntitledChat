@@ -1,6 +1,7 @@
 package com.gprojekt.untitledchat.entities;
 
 import javax.persistence.*;
+import javax.websocket.Session;
 
 /**
  * Created by Jochen on 01.02.14.
@@ -17,6 +18,12 @@ public class User {
 
     @Lob
     private String base64PublicKey;
+
+    @Transient
+    private Session session;
+
+    @Transient
+    private String challenge;
 
     public User(String username, String base64PublicKey) {
         this.username = username;
@@ -48,5 +55,13 @@ public class User {
 
     public void setBase64PublicKey(String base64PublicKey) {
         this.base64PublicKey = base64PublicKey;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 }
