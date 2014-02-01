@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="522461528">
+    <data-source source="LOCAL" name="Data Source" product="H2" version="1.3.175 (2014-01-18)" jdbc-version="4.0" driver-name="H2 JDBC Driver" driver-version="1.3.175 (2014-01-18)" uuid="359ebc80-3685-4e8b-8223-ebf0f3a88a25">
+      <identifier-quote-string>&quot;</identifier-quote-string>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.h2.Driver</jdbc-driver>
+      <jdbc-url>jdbc:h2:~/untitledchattest</jdbc-url>
+      <libraries>
+        <library>
+          <url>jar://$MAVEN_REPOSITORY$/com/h2database/h2/1.3.175/h2-1.3.175.jar!/</url>
+        </library>
+      </libraries>
+    </data-source>
+  </component>
+</project>
+
