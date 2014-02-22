@@ -1,5 +1,7 @@
 package com.gprojekt.untitledchat.dto;
 
+import com.gprojekt.untitledchat.GlobalGson;
+
 /**
  * Created by Jochen on 01.02.14.
  */
@@ -8,6 +10,11 @@ public class Message {
     private String body;
 
     public Message() {
+    }
+
+    public Message(MessageType type,String body) {
+        this.type = type;
+        this.body = body;
     }
 
     public MessageType getType() {
@@ -24,5 +31,9 @@ public class Message {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getJson(){
+        return GlobalGson.get().toJson(this, Message.class);
     }
 }

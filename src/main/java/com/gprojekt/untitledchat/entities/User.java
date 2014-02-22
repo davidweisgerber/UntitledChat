@@ -25,6 +25,9 @@ public class User {
     @Transient
     private String challenge;
 
+    @Transient
+    private UserState userState;
+
     public User(String username, String base64PublicKey) {
         this.username = username;
         this.base64PublicKey = base64PublicKey;
@@ -63,5 +66,21 @@ public class User {
 
     public void setSession(Session session) {
         this.session = session;
+    }
+
+    public String getChallenge() {
+        return challenge;
+    }
+
+    public void setChallenge(String challenge) {
+        this.challenge = challenge;
+    }
+
+    public UserState getUserState() {
+        return userState;
+    }
+
+    public void setUserState(UserState userState) {
+        this.userState = userState;
     }
 }
