@@ -47,6 +47,6 @@ public class LoginServiceImplTest {
 
     @Test
     public void testLogin() throws Exception {
-
+        this.loginService.keyFactory
     }
 }

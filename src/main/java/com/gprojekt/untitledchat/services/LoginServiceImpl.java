@@ -52,6 +52,13 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void createUser(CreateUserMessage message, Session session) {
         User my_user = new User(message.getUsername(),message.getBase64PublicKey());
+        try {
+            my_user.setUserState(UserState.LOGIN_USER);
+            session.getBasicRemote().sendText((new Message(MessageType.CREATE_USER_RETURN, Long.toString(my_user.getId()))).getJson());
+        } catch (IOException e) {
+            my_user.setUserState(UserState.NOT_CONNECTED_USER);
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -69,31 +76,31 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void login(String signedGUID, User user) {
-        byte[] cipherText = null;
-        if(user.getChallenge() != null){
-            try {
-                byte dataPrivateKey[] = DatatypeConverter.parseBase64Binary(user.getBase64PublicKey());
-                KeySpec privateKeySpec = new PKCS8EncodedKeySpec(dataPrivateKey);
-                PublicKey key = keyFactory.generatePublic(privateKeySpec);
-                // get an RSA cipher object and print the provider
-                final Cipher cipher = Cipher.getInstance("RSA");
-                // encrypt the plain text using the public key
-                cipher.init(Cipher.ENCRYPT_MODE ,key);
-                cipherText = cipher.doFinal(signedGUID.getBytes());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if(cipherText != null){
-                String planeGUID = new String(cipherText);
-                if(planeGUID.compareTo(user.getChallenge()) == 0){
-                    user.setChallenge(null);
-                    user.setUserState(UserState.LOGIN_USER_SUCCESS);
+        if(user.getUserState() == UserState.LOGIN_USER){
+            byte[] cipherText = null;
+            if(user.getChallenge() != null){
+                try {
+                    byte dataPrivateKey[] = DatatypeConverter.parseBase64Binary(user.getBase64PublicKey());
+                    KeySpec privateKeySpec = new PKCS8EncodedKeySpec(dataPrivateKey);
+                    PublicKey key = keyFactory.generatePublic(privateKeySpec);
+                    // get an RSA cipher object and print the provider
+                    final Cipher cipher = Cipher.getInstance("RSA");
+                    // encrypt the plain text using the public key
+                    cipher.init(Cipher.ENCRYPT_MODE ,key);
+                    cipherText = cipher.doFinal(signedGUID.getBytes());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if(cipherText != null){
+                    String planeGUID = new String(cipherText);
+                    if(planeGUID.compareTo(user.getChallenge()) == 0){
+                        user.setChallenge(null);
+                        user.setUserState(UserState.LOGIN_USER_SUCCESS);
+                    }
                 }
             }
+            user.setChallenge(null);
+            user.setUserState(UserState.NOT_CONNECTED_USER);
         }
-        user.setChallenge(null);
-        user.setUserState(UserState.NOT_CONNECTED_USER);
     }
-
-
 }

@@ -15,4 +15,5 @@ public enum MessageType {
     CHAT_MESSAGE,
     CREATE_CHAT,
     CREATE_CHAT_RESPONSE,
+    ERROR
 }
